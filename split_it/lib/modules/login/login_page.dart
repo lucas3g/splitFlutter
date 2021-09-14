@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
+import 'package:split_it/modules/login/login_controller.dart';
+import 'package:split_it/modules/login/login_service.dart';
+import 'package:split_it/modules/login/widgets/login_state.dart';
 import 'package:split_it/modules/login/widgets/social_button.dart';
 import 'package:split_it/theme/app_theme.dart';
 
@@ -10,6 +15,22 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  late LoginController controller;
+
+  @override
+  void initState() {
+    controller = LoginController(
+      service: LoginServiceImp(),
+    );
+    autorun((_) {
+      if (controller.state is LoginStateSuccess) {
+        final user = (controller.state as LoginStateSuccess).user;
+        Navigator.pushReplacementNamed(context, '/home', arguments: user);
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,21 +67,35 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: 32,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: SocialButtonWidget(
-                    imagePath: 'assets/images/google.png',
-                    label: 'Entrar com Google'),
-              ),
+              Observer(builder: (context) {
+                if (controller.state is LoginStateLoading)
+                  return CircularProgressIndicator();
+                else if (controller.state is LoginStateFailure)
+                  return Text((controller.state as LoginStateFailure).message);
+                else
+                  return InkWell(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 32),
+                      child: SocialButtonWidget(
+                        imagePath: 'assets/images/google.png',
+                        label: 'Entrar com Google',
+                        onTap: () {
+                          controller.googleSignIn();
+                        },
+                      ),
+                    ),
+                  );
+              }),
               SizedBox(
                 height: 12,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: SocialButtonWidget(
-                    imagePath: 'assets/images/apple.png',
-                    label: 'Entrar com Apple'),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 32),
+              //   child: SocialButtonWidget(
+              //       imagePath: 'assets/images/apple.png',
+              //       label: 'Entrar com Apple',
+              //       onTap: () {}),
+              // ),
             ],
           ),
         ],
