@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:split_it/modules/home/widgets/icon_dollar_widget.dart';
 import 'package:split_it/modules/home/widgets/loading_widget.dart';
+import 'package:split_it/shared/utils/formatters.dart';
 import 'package:split_it/theme/app_theme.dart';
 
 class InfoCardWidget extends StatelessWidget {
@@ -16,7 +17,7 @@ class InfoCardWidget extends StatelessWidget {
   IconDollarType get iconDollarType =>
       value >= 0 ? IconDollarType.receive : IconDollarType.send;
 
-  String get title => value >= 0 ? 'A Receber' : 'A pagar';
+  String get title => value >= 0 ? 'A Receber' : 'A Pagar';
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +60,7 @@ class InfoCardWidget extends StatelessWidget {
                 LoadingWidget(size: Size(94, 24))
               ] else ...[
                 Text(
-                  'R\$ ${value.toStringAsPrecision(4)}',
+                  '${value.reais().replaceAll('-', '')}',
                   style: textStyle,
                 )
               ]

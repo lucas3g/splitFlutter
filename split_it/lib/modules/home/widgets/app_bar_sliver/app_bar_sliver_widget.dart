@@ -1,5 +1,4 @@
-import 'dart:ffi';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:split_it/modules/home/widgets/add_button_widget.dart';
 import 'package:split_it/modules/home/widgets/app_bar/bottom_app_bar/bottom_app_bar_widget.dart';
@@ -26,46 +25,56 @@ class _AppBarSliverWidgetState extends State<AppBarSliverWidget> {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-        floating: true,
-        leadingWidth: 75,
-        leading: Row(
-          children: [
-            SizedBox(
-              width: 17,
-            ),
-            ClipRRect(
+      titleSpacing: 10,
+      pinned: true,
+      leadingWidth: 72,
+      leading: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Container(
+            height: 56,
+            width: 56,
+            decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              child: Image.network(usuario.photoUrl!),
-            ),
-          ],
-        ),
-        title: Text(
-          usuario.name!,
-          style: AppTheme.textStyles.appBar,
-        ),
-        flexibleSpace: FlexibleSpaceBar(
-          background: Column(
-            children: [
-              SizedBox(
-                height: 90,
+              image: DecorationImage(
+                image: CachedNetworkImageProvider(usuario.photoURL!),
               ),
-              BottomAppBarWidget(),
+            ),
+          ),
+        ],
+      ),
+      title: Text(
+        usuario.name!,
+        style: AppTheme.textStyles.appBar,
+      ),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 16),
+          child: Row(
+            children: [
+              AddButtonWidget(
+                onTap: onTaps,
+              ),
             ],
           ),
-        ),
-        backgroundColor: AppTheme.colors.backgroundSecondary,
-        expandedHeight: 250,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Row(
-              children: [
-                AddButtonWidget(
-                  onTap: onTaps,
-                ),
-              ],
+        )
+      ],
+      flexibleSpace: FlexibleSpaceBar(
+        background: Column(
+          children: [
+            SizedBox(
+              height: 95,
             ),
-          )
-        ]);
+            BottomAppBarWidget(),
+          ],
+        ),
+      ),
+      backgroundColor: AppTheme.colors.backgroundSecondary,
+      expandedHeight: 250,
+      bottom: PreferredSize(
+        child: Container(),
+        preferredSize: Size.fromHeight(10),
+      ),
+    );
   }
 }

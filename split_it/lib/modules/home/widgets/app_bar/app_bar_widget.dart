@@ -23,9 +23,11 @@ class AppBarWidget extends PreferredSize {
                     Padding(
                       padding: const EdgeInsets.only(top: 62),
                       child: ListTile(
-                        leading: ClipRRect(
+                        leading: Container(
+                          decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            child: Image.network(user.photoUrl!)),
+                          ),
+                        ),
                         title: Text(
                           user.name!,
                           style: AppTheme.textStyles.appBar,

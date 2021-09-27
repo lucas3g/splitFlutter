@@ -5,47 +5,62 @@ import 'package:split_it/modules/create_split/create_split_controller.dart';
 import 'package:split_it/theme/app_theme.dart';
 
 class BottomStepperBarWidget extends StatelessWidget {
-  final VoidCallback onTapCancel;
-  final VoidCallback onTapNext;
   final CreateSplitController controller;
 
-  const BottomStepperBarWidget(
-      {Key? key,
-      required this.onTapCancel,
-      required this.onTapNext,
-      required this.controller})
-      : super(key: key);
+  const BottomStepperBarWidget({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
+
+  void onTapNext() {
+    if (controller.currentPage == 2) {
+      controller.saveEvent();
+    } else {
+      controller.nextPage();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 60,
-      child: Column(
-        children: [
-          Row(
+        height: 61,
+        child: Observer(builder: (_) {
+          return Column(
             children: [
-              Observer(builder: (_) {
-                return StepperNextButtonWidget(
-                  label: 'Cancelar',
-                  onTap: onTapCancel,
-                  enabled: controller.enableNavigateButton,
-                );
-              }),
               Container(
-                width: 1,
-                height: 60,
-                color: AppTheme.colors.divider,
+                width: double.maxFinite,
+                height: 1,
+                color: controller.enableNavigateButton
+                    ? AppTheme.colors.divider
+                    : AppTheme.colors.dividerDisabled,
               ),
-              Observer(builder: (_) {
-                return StepperNextButtonWidget(
-                    label: 'Continuar',
+              Row(
+                children: [
+                  StepperNextButtonWidget(
+                    label: 'Cancelar',
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    enabled: controller.enableNavigateButton,
+                  ),
+                  Container(
+                    width: 1,
+                    height: 60,
+                    color: controller.enableNavigateButton
+                        ? AppTheme.colors.divider
+                        : AppTheme.colors.dividerDisabled,
+                  ),
+                  StepperNextButtonWidget(
+                    label:
+                        controller.currentPage == 2 ? 'Finalizar' : 'Continuar',
                     onTap: onTapNext,
-                    enabled: controller.enableNavigateButton);
-              })
+                    colored: controller.currentPage == 2,
+                    enabled: controller.enableNavigateButton,
+                  ),
+                ],
+              ),
             ],
-          ),
-        ],
-      ),
-    );
+          );
+        }));
   }
 }

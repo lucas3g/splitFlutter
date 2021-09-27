@@ -19,15 +19,18 @@ abstract class AppColors {
   Color get eventTileMoney;
   Color get eventTilePeople;
   Color get divider;
+  Color get dividerDisabled;
   Color get stepperIndicatorPrimary;
   Color get stepperIndicatorSecondary;
   Color get backButton;
   Color get stepperNextButton;
+  Color get stepperNextButtonRegular;
   Color get stepperNextButtonDisabled;
   Color get stepperTitle;
   Color get stepperSubTitle;
   Color get hintTextField;
   Color get textField;
+  Color get personTileTitleSelected;
 }
 
 class AppColorDefault implements AppColors {
@@ -110,5 +113,14 @@ class AppColorDefault implements AppColors {
   Color get textField => Color(0xFF455250);
 
   @override
-  Color get stepperNextButtonDisabled => Color(0xFF666666);
+  Color get stepperNextButtonDisabled => Color(0xFF666666).withOpacity(0.2);
+
+  @override
+  Color get personTileTitleSelected => Color(0xFF455250);
+
+  @override
+  Color get stepperNextButtonRegular => Color(0xFF40B28C);
+
+  @override
+  Color get dividerDisabled => Color(0xFF666666).withOpacity(0.2);
 }

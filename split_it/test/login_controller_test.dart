@@ -5,6 +5,7 @@ import 'package:split_it/modules/login/login_controller.dart';
 import 'package:split_it/modules/login/login_service.dart';
 import 'package:split_it/modules/login/models/user_model.dart';
 import 'package:split_it/modules/login/widgets/login_state.dart';
+import 'package:split_it/shared/repositories/firebase_repository.dart';
 
 class LoginServiceMock extends Mock implements LoginService {}
 
@@ -14,7 +15,8 @@ void main() {
 
   setUp(() {
     service = LoginServiceMock();
-    controller = LoginController(service: service);
+    controller =
+        LoginController(service: service, repository: FirebaseRepository());
   });
 
   test('Testando o Google SignIn - sucesso', () async {

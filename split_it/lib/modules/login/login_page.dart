@@ -5,6 +5,7 @@ import 'package:split_it/modules/login/login_controller.dart';
 import 'package:split_it/modules/login/login_service.dart';
 import 'package:split_it/modules/login/widgets/login_state.dart';
 import 'package:split_it/modules/login/widgets/social_button.dart';
+import 'package:split_it/shared/repositories/firebase_repository.dart';
 import 'package:split_it/theme/app_theme.dart';
 
 class LoginPage extends StatefulWidget {
@@ -20,8 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     controller = LoginController(
-      service: LoginServiceImp(),
-    );
+        service: LoginServiceImp(), repository: FirebaseRepository());
     autorun((_) {
       if (controller.state is LoginStateSuccess) {
         final user = (controller.state as LoginStateSuccess).user;

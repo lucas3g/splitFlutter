@@ -16,7 +16,7 @@ class AddButtonWidget extends StatelessWidget {
             border: Border.fromBorderSide(BorderSide(
                 color: AppTheme.colors.titleappBar.withOpacity(0.25)))),
         width: 48,
-        height: 56,
+        height: 48,
         child: Center(
           child: Icon(
             Icons.add,

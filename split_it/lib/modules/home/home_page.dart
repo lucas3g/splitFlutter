@@ -1,10 +1,10 @@
-import 'package:animated_card/animated_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:lottie/lottie.dart';
+import 'package:split_it/modules/event_details/event_details_page.dart';
 import 'package:split_it/modules/home/home_controller.dart';
 import 'package:split_it/modules/home/home_state.dart';
-import 'package:split_it/modules/home/widgets/app_bar/app_bar_widget.dart';
-import 'package:split_it/modules/home/widgets/app_bar/bottom_app_bar/bottom_app_bar_widget.dart';
+import 'package:split_it/modules/home/repositories/home_repository_firebase.dart';
 import 'package:split_it/modules/home/widgets/app_bar_sliver/app_bar_sliver_widget.dart';
 import 'package:split_it/modules/home/widgets/event_tile_widget.dart';
 import 'package:split_it/modules/login/models/user_model.dart';
@@ -19,7 +19,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final controller = HomeController();
+  final controller = HomeController(repository: HomeRepositoryFirebase());
 
   @override
   void initState() {
@@ -35,8 +35,9 @@ class _HomePageState extends State<HomePage> {
       body: CustomScrollView(slivers: [
         AppBarSliverWidget(
           user: user,
-          onTapAddButton: () {
-            Navigator.pushNamed(context, '/create_split');
+          onTapAddButton: () async {
+            await Navigator.pushNamed(context, '/create_split');
+            controller.getEvents();
           },
         ),
         SliverList(
@@ -50,6 +51,7 @@ class _HomePageState extends State<HomePage> {
                     children: List.generate(
                       10,
                       (index) => EventTileWidget(
+                        //controller: controller,
                         model: EventModel(),
                         isLoading: true,
                       ),
@@ -59,14 +61,38 @@ class _HomePageState extends State<HomePage> {
               } else if (controller.state is HomeStateSuccess) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
-                      children: (controller.state as HomeStateSuccess)
+                  child: (controller.state as HomeStateSuccess)
                           .events
-                          .map((e) => EventTileWidget(
-                                model: e,
-                                isLoading: false,
-                              ))
-                          .toList()),
+                          .isNotEmpty
+                      ? Column(
+                          children: (controller.state as HomeStateSuccess)
+                              .events
+                              .map(
+                                (e) => EventTileWidget(
+                                  onTap: () async {
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => EventDetailsPage(
+                                          event: e,
+                                          userName: user.name!,
+                                        ),
+                                      ),
+                                    );
+                                    controller.getEvents();
+                                  },
+                                  model: e,
+                                  isLoading: false,
+                                ),
+                              )
+                              .toList())
+                      : Column(
+                          children: [
+                            Lottie.asset('assets/images/cry.json', height: 120),
+                            Text('Nenhum Evento Encontrado!',
+                                style: AppTheme.textStyles.eventTileTitle),
+                          ],
+                        ),
                 );
               } else if (controller.state is HomeStateFailure) {
                 return Text((controller.state as HomeStateFailure).message);
@@ -76,47 +102,7 @@ class _HomePageState extends State<HomePage> {
             });
           }, childCount: 1),
         ),
-      ]
-          // child: Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 16),
-          //   child: AnimatedCard(
-          //     direction: AnimatedCardDirection.right,
-          //     child: SingleChildScrollView(
-          //       child: Column(
-          //         children: [
-          //           Observer(builder: (context) {
-          //             if (controller.state is HomeStateLoading) {
-          //               return Column(
-          //                 children: List.generate(
-          //                   10,
-          //                   (index) => EventTileWidget(
-          //                     model: EventModel(),
-          //                     isLoading: true,
-          //                   ),
-          //                 ),
-          //               );
-          //             } else if (controller.state is HomeStateSuccess) {
-          //               return Column(
-          //                   children: (controller.state as HomeStateSuccess)
-          //                       .events
-          //                       .map((e) => EventTileWidget(
-          //                             model: e,
-          //                             isLoading: false,
-          //                           ))
-          //                       .toList());
-          //             } else if (controller.state is HomeStateFailure) {
-          //               return Text(
-          //                   (controller.state as HomeStateFailure).message);
-          //             } else {
-          //               return Container();
-          //             }
-          //           })
-          //         ],
-          //       ),
-          //     ),
-          //   ),
-          // ),
-          ),
+      ]),
     );
   }
 }

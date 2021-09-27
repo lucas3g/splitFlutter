@@ -1,10 +1,17 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:split_it/shared/models/friend_model.dart';
 import 'package:split_it/theme/app_theme.dart';
 
 class PersonTileWidget extends StatelessWidget {
-  final String name;
+  final FriendModel friend;
   final bool isRemoved;
-  const PersonTileWidget({Key? key, required this.name, this.isRemoved = false})
+  final VoidCallback onPressed;
+  const PersonTileWidget(
+      {Key? key,
+      required this.friend,
+      this.isRemoved = false,
+      required this.onPressed})
       : super(key: key);
 
   @override
@@ -13,9 +20,19 @@ class PersonTileWidget extends StatelessWidget {
       leading: Container(
         width: 40,
         height: 40,
-        color: Colors.grey.shade300,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          image: DecorationImage(
+              image: CachedNetworkImageProvider(friend.photoURL),
+              fit: BoxFit.cover),
+        ),
       ),
-      title: Text(name),
+      title: Text(
+        friend.name,
+        style: isRemoved
+            ? AppTheme.textStyles.personTileTitleSelected
+            : AppTheme.textStyles.personTileTitle,
+      ),
       trailing: IconButton(
         icon: isRemoved
             ? Icon(
@@ -26,7 +43,7 @@ class PersonTileWidget extends StatelessWidget {
                 Icons.add,
                 color: AppTheme.colors.backgroundSecondary,
               ),
-        onPressed: () {},
+        onPressed: onPressed,
       ),
     );
   }

@@ -17,27 +17,60 @@ class HomeRepositoryMock implements HomeRepository {
     await Future.delayed(Duration(seconds: 2));
     return [
       EventModel(
-          title: 'Churrasco', created: DateTime.now(), value: 100, people: 2),
+        name: 'Churrasco',
+        created: DateTime.now(),
+        value: 100,
+      ),
       EventModel(
-          title: 'Churrasco', created: DateTime.now(), value: -100, people: 2),
+        name: 'Churrasco',
+        created: DateTime.now(),
+        value: -100,
+      ),
       EventModel(
-          title: 'Churrasco', created: DateTime.now(), value: -100, people: 2),
+        name: 'Churrasco',
+        created: DateTime.now(),
+        value: -100,
+      ),
       EventModel(
-          title: 'Churrasco', created: DateTime.now(), value: 100, people: 2),
+        name: 'Churrasco',
+        created: DateTime.now(),
+        value: 100,
+      ),
       EventModel(
-          title: 'Churrasco', created: DateTime.now(), value: -100, people: 2),
+        name: 'Churrasco',
+        created: DateTime.now(),
+        value: -100,
+      ),
       EventModel(
-          title: 'Churrasco', created: DateTime.now(), value: -100, people: 2),
+        name: 'Churrasco',
+        created: DateTime.now(),
+        value: -100,
+      ),
       EventModel(
-          title: 'Churrasco', created: DateTime.now(), value: 100, people: 2),
+        name: 'Churrasco',
+        created: DateTime.now(),
+        value: 100,
+      ),
       EventModel(
-          title: 'Churrasco', created: DateTime.now(), value: -100, people: 2),
+        name: 'Churrasco',
+        created: DateTime.now(),
+        value: -100,
+      ),
       EventModel(
-          title: 'Churrasco', created: DateTime.now(), value: -100, people: 2),
+        name: 'Churrasco',
+        created: DateTime.now(),
+        value: -100,
+      ),
       EventModel(
-          title: 'Churrasco', created: DateTime.now(), value: 100, people: 2),
+        name: 'Churrasco',
+        created: DateTime.now(),
+        value: 100,
+      ),
       EventModel(
-          title: 'Churrasco', created: DateTime.now(), value: -100, people: 2),
+        name: 'Churrasco',
+        created: DateTime.now(),
+        value: -100,
+      ),
     ];
   }
 }

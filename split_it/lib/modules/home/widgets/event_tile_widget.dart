@@ -3,19 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:split_it/modules/home/widgets/icon_dollar_widget.dart';
 import 'package:split_it/modules/home/widgets/loading_widget.dart';
 import 'package:split_it/shared/models/event_model.dart';
+import 'package:split_it/shared/utils/formatters.dart';
 import 'package:split_it/theme/app_theme.dart';
 
 class EventTileWidget extends StatelessWidget {
   final EventModel model;
+  final VoidCallback? onTap;
   final bool isLoading;
+
   const EventTileWidget({
     Key? key,
     required this.model,
     this.isLoading = false,
+    this.onTap,
   }) : super(key: key);
 
   IconDollarType get type =>
-      model.value! >= 0 ? IconDollarType.receive : IconDollarType.send;
+      model.value >= 0 ? IconDollarType.receive : IconDollarType.send;
 
   @override
   Widget build(BuildContext context) {
@@ -58,45 +62,50 @@ class EventTileWidget extends StatelessWidget {
         ],
       );
     }
-    return Row(
-      children: [
-        IconDollarWidget(type: type),
-        Expanded(
-            child: Padding(
-          padding: const EdgeInsets.only(left: 16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(
-                  model.title!,
-                  style: AppTheme.textStyles.eventTileTitle,
-                ),
-                subtitle: Text(model.created!.toIso8601String(),
-                    style: AppTheme.textStyles.eventTileSubTitle),
-                trailing: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text('R\$ ${model.value!.toStringAsPrecision(4)}',
-                        style: AppTheme.textStyles.eventTileMoney),
-                    SizedBox(
-                      height: 5,
+    return InkWell(
+      onTap: onTap,
+      child: IgnorePointer(
+        child: Row(
+          children: [
+            IconDollarWidget(type: type),
+            Expanded(
+                child: Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(
+                      model.name,
+                      style: AppTheme.textStyles.eventTileTitle,
                     ),
-                    Text(
-                        '${model.people} pessoa${model.people == 1 ? '' : 's'}',
-                        style: AppTheme.textStyles.eventTilePeople)
-                  ],
-                ),
+                    subtitle: Text(model.created!.diaMes(),
+                        style: AppTheme.textStyles.eventTileSubTitle),
+                    trailing: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text('${model.value.reais()}',
+                            style: AppTheme.textStyles.eventTileMoney),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                            '${model.people} pessoa${model.people == 1 ? '' : 's'}',
+                            style: AppTheme.textStyles.eventTilePeople)
+                      ],
+                    ),
+                  ),
+                  Divider(
+                    color: AppTheme.colors.divider,
+                  )
+                ],
               ),
-              Divider(
-                color: AppTheme.colors.divider,
-              )
-            ],
-          ),
-        ))
-      ],
+            ))
+          ],
+        ),
+      ),
     );
   }
 }

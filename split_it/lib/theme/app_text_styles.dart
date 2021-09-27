@@ -17,11 +17,16 @@ abstract class AppTextStyles {
   TextStyle get stepperIndicatorPrimary;
   TextStyle get stepperIndicatorSecondary;
   TextStyle get stepperNextButton;
+  TextStyle get stepperNextButtonRegular;
   TextStyle get stepperNextButtonDisabled;
   TextStyle get stepperTitle;
   TextStyle get stepperSubTitle;
   TextStyle get hintTextField;
   TextStyle get textField;
+  TextStyle get personTileTitle;
+  TextStyle get personTileTitleSelected;
+  TextStyle get appBarEventDetails;
+  TextStyle get eventDetailTitle;
 }
 
 class AppTextStylesDefault implements AppTextStyles {
@@ -128,4 +133,35 @@ class AppTextStylesDefault implements AppTextStyles {
       fontSize: 14,
       color: AppTheme.colors.stepperNextButtonDisabled,
       fontWeight: FontWeight.w500);
+
+  @override
+  TextStyle get personTileTitle => GoogleFonts.inter(
+      fontSize: 16,
+      color: AppTheme.colors.stepperNextButton,
+      fontWeight: FontWeight.w400);
+
+  @override
+  TextStyle get personTileTitleSelected => GoogleFonts.inter(
+      fontSize: 16,
+      color: AppTheme.colors.personTileTitleSelected,
+      fontWeight: FontWeight.w700);
+
+  @override
+  TextStyle get stepperNextButtonRegular => GoogleFonts.inter(
+      fontSize: 16,
+      color: AppTheme.colors.stepperNextButtonRegular,
+      fontWeight: FontWeight.w500);
+
+  @override
+  TextStyle get appBarEventDetails => GoogleFonts.montserrat(
+      fontSize: 22,
+      color: AppTheme.colors.eventTileTitle,
+      fontWeight: FontWeight.w700);
+
+  @override
+  TextStyle get eventDetailTitle => GoogleFonts.roboto(
+        fontSize: 14,
+        color: AppTheme.colors.eventTileTitle,
+        fontWeight: FontWeight.w700,
+      );
 }

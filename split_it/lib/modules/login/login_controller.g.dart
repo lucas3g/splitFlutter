@@ -34,6 +34,8 @@ mixin _$LoginController on _LoginControllerBase, Store {
 
   @override
   String toString() {
-    return '''state: ${state}''';
+    return '''
+state: ${state}
+    ''';
   }
 }

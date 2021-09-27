@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:split_it/modules/home/widgets/app_bar/app_bar_controller.dart';
 import 'package:split_it/modules/home/widgets/app_bar/app_bar_state.dart';
+import 'package:split_it/shared/utils/formatters.dart';
 
 import '../../info_card_widget.dart';
 
@@ -28,21 +29,18 @@ class _BottomAppBarWidgetState extends State<BottomAppBarWidget> {
       switch (controller.state.runtimeType) {
         case AppBarStateLoading:
           {
-            return AnimatedCard(
-              direction: AnimatedCardDirection.right,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  InfoCardWidget(
-                    value: 0,
-                    isLoading: true,
-                  ),
-                  InfoCardWidget(
-                    value: -1,
-                    isLoading: true,
-                  ),
-                ],
-              ),
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                InfoCardWidget(
+                  value: 0,
+                  isLoading: true,
+                ),
+                InfoCardWidget(
+                  value: -1,
+                  isLoading: true,
+                ),
+              ],
             );
           }
         case AppBarStateSuccess:
