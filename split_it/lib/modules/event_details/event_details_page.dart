@@ -1,9 +1,5 @@
-import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
-import 'package:mobx/mobx.dart';
 import 'package:split_it/modules/event_details/event_details_controller.dart';
-import 'package:split_it/modules/event_details/event_details_status.dart';
 import 'package:split_it/modules/event_details/widgets/dialogs/confirm_delete_widget.dart';
 import 'package:split_it/modules/event_details/widgets/item_tile_widget.dart';
 import 'package:split_it/modules/event_details/widgets/person_tile_widget.dart';
@@ -12,9 +8,17 @@ import 'package:split_it/shared/repositories/firebase_repository.dart';
 import 'package:split_it/shared/utils/formatters.dart';
 import 'package:split_it/theme/app_theme.dart';
 
+// class ScreenArguments {
+//   final EventModel event;
+//   final String userName;
+
+//   ScreenArguments({required this.event, required this.userName});
+// }
+
 class EventDetailsPage extends StatefulWidget {
   final EventModel event;
   final String userName;
+
   EventDetailsPage({Key? key, required this.event, required this.userName})
       : super(key: key);
 
@@ -24,12 +28,12 @@ class EventDetailsPage extends StatefulWidget {
 
 class _EventDetailsPageState extends State<EventDetailsPage> {
   final controller = EventDetailsController(repository: FirebaseRepository());
+
   late EventModel event;
 
   @override
   void initState() {
     event = widget.event;
-
     super.initState();
   }
 
@@ -47,6 +51,9 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    //final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
+    //event = args.event;
+    //userName = args.userName;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -93,11 +100,11 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                       ),
                       ...event.friends
                           .map(
-                            (e) => PersonTileWidget(
+                            (friend) => PersonTileWidget(
                               key: UniqueKey(),
                               userName: widget.userName,
                               event: event,
-                              friend: e,
+                              friend: friend,
                               value: event.valueSplit,
                               onChanged: (newEvent) {
                                 event = newEvent;

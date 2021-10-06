@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
@@ -7,6 +10,7 @@ import 'package:split_it/modules/login/widgets/login_state.dart';
 import 'package:split_it/modules/login/widgets/social_button.dart';
 import 'package:split_it/shared/repositories/firebase_repository.dart';
 import 'package:split_it/theme/app_theme.dart';
+import 'package:vibration/vibration.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -56,11 +60,11 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                width: 300,
+                width: 330,
                 padding: EdgeInsets.only(right: 30),
                 child: ListTile(
                   leading: Image.asset('assets/images/emoji.png'),
-                  title: Text('Faça seu login com uma das contas abaixo',
+                  title: Text('Faça seu login com umas das contas abaixo.',
                       style: AppTheme.textStyles.button),
                 ),
               ),
@@ -69,19 +73,30 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Observer(builder: (context) {
                 if (controller.state is LoginStateLoading)
-                  return CircularProgressIndicator();
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 32),
+                    child: SocialButtonWidget(
+                      imagePath: '',
+                      label: 'Entrar com Google',
+                      onTap: () {},
+                      isLoading: true,
+                    ),
+                  );
                 else if (controller.state is LoginStateFailure)
                   return Text((controller.state as LoginStateFailure).message);
                 else
                   return InkWell(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 32),
-                      child: SocialButtonWidget(
-                        imagePath: 'assets/images/google.png',
-                        label: 'Entrar com Google',
-                        onTap: () {
-                          controller.googleSignIn();
-                        },
+                    child: Ink(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 32),
+                        child: SocialButtonWidget(
+                          imagePath: 'assets/images/google.png',
+                          label: 'Entrar com Google',
+                          onTap: () {
+                            Vibration.vibrate(duration: 100);
+                            controller.googleSignIn();
+                          },
+                        ),
                       ),
                     ),
                   );
@@ -89,13 +104,21 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: 12,
               ),
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(horizontal: 32),
-              //   child: SocialButtonWidget(
-              //       imagePath: 'assets/images/apple.png',
-              //       label: 'Entrar com Apple',
-              //       onTap: () {}),
-              // ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: SocialButtonWidget(
+                    imagePath: 'assets/images/apple.png',
+                    label: 'Entrar com Apple',
+                    onTap: () {
+                      Vibration.vibrate(duration: 100);
+                      if (Platform.isAndroid) {
+                        BotToast.showText(
+                          text: 'Você está em um SmartPhone Android!',
+                          contentColor: Colors.black,
+                        );
+                      }
+                    }),
+              ),
             ],
           ),
         ],

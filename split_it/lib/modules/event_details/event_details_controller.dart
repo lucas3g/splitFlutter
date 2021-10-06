@@ -1,6 +1,5 @@
 import 'package:mobx/mobx.dart';
 import 'package:split_it/modules/event_details/event_details_status.dart';
-
 import 'package:split_it/shared/repositories/firebase_repository.dart';
 
 part 'event_details_controller.g.dart';

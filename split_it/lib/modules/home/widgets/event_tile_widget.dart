@@ -64,47 +64,45 @@ class EventTileWidget extends StatelessWidget {
     }
     return InkWell(
       onTap: onTap,
-      child: IgnorePointer(
-        child: Row(
-          children: [
-            IconDollarWidget(type: type),
-            Expanded(
-                child: Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    title: Text(
-                      model.name,
-                      style: AppTheme.textStyles.eventTileTitle,
-                    ),
-                    subtitle: Text(model.created!.diaMes(),
-                        style: AppTheme.textStyles.eventTileSubTitle),
-                    trailing: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text('${model.value.reais()}',
-                            style: AppTheme.textStyles.eventTileMoney),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                            '${model.people} pessoa${model.people == 1 ? '' : 's'}',
-                            style: AppTheme.textStyles.eventTilePeople)
-                      ],
-                    ),
+      child: Row(
+        children: [
+          IconDollarWidget(type: type),
+          Expanded(
+              child: Padding(
+            padding: const EdgeInsets.only(left: 16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(
+                    model.name,
+                    style: AppTheme.textStyles.eventTileTitle,
                   ),
-                  Divider(
-                    color: AppTheme.colors.divider,
-                  )
-                ],
-              ),
-            ))
-          ],
-        ),
+                  subtitle: Text(model.created!.diaMes(),
+                      style: AppTheme.textStyles.eventTileSubTitle),
+                  trailing: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text('${model.value.reais()}',
+                          style: AppTheme.textStyles.eventTileMoney),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                          '${model.people} pessoa${model.people == 1 ? '' : 's'}',
+                          style: AppTheme.textStyles.eventTilePeople)
+                    ],
+                  ),
+                ),
+                Divider(
+                  color: AppTheme.colors.divider,
+                )
+              ],
+            ),
+          ))
+        ],
       ),
     );
   }

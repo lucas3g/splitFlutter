@@ -4,10 +4,17 @@ class FriendModel {
   final String name;
   final String photoURL;
   final bool isPaid;
-  FriendModel(
-      {required this.name, required this.photoURL, this.isPaid = false});
+  FriendModel({
+    required this.name,
+    required this.photoURL,
+    required this.isPaid,
+  });
 
-  FriendModel copyWith({String? name, String? photoURL, bool? isPaid}) {
+  FriendModel copyWith({
+    String? name,
+    String? photoURL,
+    bool? isPaid,
+  }) {
     return FriendModel(
       name: name ?? this.name,
       photoURL: photoURL ?? this.photoURL,
@@ -16,15 +23,18 @@ class FriendModel {
   }
 
   Map<String, dynamic> toMap() {
-    return {'name': name, 'photoURL': photoURL, 'isPaid': isPaid};
+    return {
+      'name': name,
+      'photoURL': photoURL,
+      'isPaid': isPaid,
+    };
   }
 
   factory FriendModel.fromMap(Map<String, dynamic> map) {
     return FriendModel(
       name: map['name'],
+      photoURL: map['photoURL'],
       isPaid: map['isPaid'] ?? false,
-      photoURL: map['photoURL'] ??
-          'https://cdn.icon-icons.com/icons2/1993/PNG/512/avatar_male_man_people_person_profile_user_icon_123199.png',
     );
   }
 

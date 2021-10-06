@@ -5,12 +5,14 @@ class SocialButtonWidget extends StatelessWidget {
   final String imagePath;
   final String label;
   final VoidCallback onTap;
+  final bool isLoading;
 
   const SocialButtonWidget({
     Key? key,
     required this.imagePath,
     required this.label,
     required this.onTap,
+    this.isLoading = false,
   }) : super(key: key);
 
   @override
@@ -31,7 +33,12 @@ class SocialButtonWidget extends StatelessWidget {
               ),
               height: 56,
               width: 56,
-              child: Image.asset(imagePath),
+              child: isLoading
+                  ? Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: CircularProgressIndicator(),
+                    )
+                  : Image.asset(imagePath),
             ),
             Expanded(child: Container()),
             Text(

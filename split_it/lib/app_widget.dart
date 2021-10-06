@@ -21,6 +21,7 @@ class AppWidget extends StatelessWidget {
         '/error': (context) => ErrorPage(),
         '/home': (context) => HomePage(),
         '/create_split': (context) => CreateSplitPage(),
+        //'/event_details': (context) => EventDetailsPage(),
       },
     );
   }

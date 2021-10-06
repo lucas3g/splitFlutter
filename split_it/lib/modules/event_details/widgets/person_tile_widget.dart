@@ -41,17 +41,16 @@ class _PersonTileWidgetState extends State<PersonTileWidget> {
     }
     autorun((_) {
       if (controller.status == CheckRoundedStatus.success ||
-          controller.status == CheckRoundedStatus.empty) {
-        widget.onChanged(controller.event);
-      }
+          controller.status == CheckRoundedStatus.empty)
+        widget.onChanged(widget.event);
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Observer(builder: (_) {
-      return ListTile(
+    return Observer(
+      builder: (_) => ListTile(
         contentPadding: EdgeInsets.zero,
         leading: Container(
           height: 40,
@@ -105,6 +104,7 @@ class _PersonTileWidgetState extends State<PersonTileWidget> {
                       ? -widget.event.valueSplit
                       : widget.event.valueSplit);
               controller.event.copyWith(paid: newPaid);
+
               setState(() {});
             },
             activeColor: controller.status == CheckRoundedStatus.success
@@ -112,7 +112,7 @@ class _PersonTileWidgetState extends State<PersonTileWidget> {
                 : Color(0xFF455250).withOpacity(0.16),
           ),
         ),
-      );
-    });
+      ),
+    );
   }
 }

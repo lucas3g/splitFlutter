@@ -1,7 +1,6 @@
 import 'package:mobx/mobx.dart';
 import 'package:split_it/shared/models/event_model.dart';
 import 'package:split_it/shared/models/friend_model.dart';
-
 import 'package:split_it/shared/repositories/firebase_repository.dart';
 
 part 'check_rounded_controller.g.dart';
@@ -48,6 +47,7 @@ abstract class _CheckRoundedControllerBase with Store {
       } else {
         status = CheckRoundedStatus.empty;
       }
+      print(status);
     } catch (e) {
       status = CheckRoundedStatus.error;
     }

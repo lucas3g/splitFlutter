@@ -1,9 +1,7 @@
-import 'package:animated_card/animated_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:split_it/modules/home/widgets/app_bar/app_bar_controller.dart';
 import 'package:split_it/modules/home/widgets/app_bar/app_bar_state.dart';
-import 'package:split_it/shared/utils/formatters.dart';
 
 import '../../info_card_widget.dart';
 

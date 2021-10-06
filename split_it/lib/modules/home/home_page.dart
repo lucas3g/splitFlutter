@@ -32,77 +32,84 @@ class _HomePageState extends State<HomePage> {
     final UserModel user =
         ModalRoute.of(context)!.settings.arguments as UserModel;
     return Scaffold(
-      body: CustomScrollView(slivers: [
-        AppBarSliverWidget(
-          user: user,
-          onTapAddButton: () async {
-            await Navigator.pushNamed(context, '/create_split');
-            controller.getEvents();
-          },
-        ),
-        SliverList(
-          delegate:
-              SliverChildBuilderDelegate((BuildContext context, int index) {
-            return Observer(builder: (context) {
-              if (controller.state is HomeStateLoading) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
-                    children: List.generate(
-                      10,
-                      (index) => EventTileWidget(
-                        //controller: controller,
-                        model: EventModel(),
-                        isLoading: true,
-                      ),
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            AppBarSliverWidget(
+              user: user,
+              onTapAddButton: () async {
+                await Navigator.pushNamed(context, '/create_split');
+                controller.getEvents();
+              },
+            ),
+          ];
+        },
+        body: SingleChildScrollView(
+          child: Observer(builder: (context) {
+            if (controller.state is HomeStateLoading) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  children: List.generate(
+                    10,
+                    (index) => EventTileWidget(
+                      //controller: controller,
+                      model: EventModel(),
+                      isLoading: true,
                     ),
                   ),
-                );
-              } else if (controller.state is HomeStateSuccess) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: (controller.state as HomeStateSuccess)
-                          .events
-                          .isNotEmpty
-                      ? Column(
-                          children: (controller.state as HomeStateSuccess)
-                              .events
-                              .map(
-                                (e) => EventTileWidget(
-                                  onTap: () async {
-                                    await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => EventDetailsPage(
-                                          event: e,
+                ),
+              );
+            } else if (controller.state is HomeStateSuccess) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: (controller.state as HomeStateSuccess).events.isNotEmpty
+                    ? Column(
+                        children: (controller.state as HomeStateSuccess)
+                            .events
+                            .map(
+                              (event) => EventTileWidget(
+                                onTap: () async {
+                                  await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) {
+                                        return EventDetailsPage(
+                                          event: event,
                                           userName: user.name!,
-                                        ),
-                                      ),
-                                    );
-                                    controller.getEvents();
-                                  },
-                                  model: e,
-                                  isLoading: false,
-                                ),
-                              )
-                              .toList())
-                      : Column(
-                          children: [
-                            Lottie.asset('assets/images/cry.json', height: 120),
-                            Text('Nenhum Evento Encontrado!',
-                                style: AppTheme.textStyles.eventTileTitle),
-                          ],
-                        ),
-                );
-              } else if (controller.state is HomeStateFailure) {
-                return Text((controller.state as HomeStateFailure).message);
-              } else {
-                return Container();
-              }
-            });
-          }, childCount: 1),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                  // await Navigator.pushNamed(
+                                  //   context,
+                                  //   '/event_details',
+                                  //   arguments: ScreenArguments(
+                                  //       event: event, userName: user.name!),
+                                  // );
+                                  controller.getEvents();
+                                },
+                                model: event,
+                                isLoading: false,
+                              ),
+                            )
+                            .toList())
+                    : Column(
+                        children: [
+                          Lottie.asset('assets/images/cry.json', height: 120),
+                          Text('Nenhum Evento Encontrado!',
+                              style: AppTheme.textStyles.eventTileTitle),
+                        ],
+                      ),
+              );
+            } else if (controller.state is HomeStateFailure) {
+              return Text((controller.state as HomeStateFailure).message);
+            } else {
+              return Container();
+            }
+          }),
         ),
-      ]),
+      ),
     );
   }
 }
