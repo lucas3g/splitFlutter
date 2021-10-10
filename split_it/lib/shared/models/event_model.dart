@@ -8,6 +8,7 @@ import 'package:split_it/shared/models/base_model.dart';
 import 'package:split_it/shared/models/friend_model.dart';
 
 class EventModel extends BaseModel {
+  final String userRef;
   final String id;
   final String name;
   final DateTime? created;
@@ -26,6 +27,7 @@ class EventModel extends BaseModel {
       : 0.0;
 
   EventModel({
+    this.userRef = '',
     this.id = '',
     this.name = '',
     this.created,
@@ -36,6 +38,7 @@ class EventModel extends BaseModel {
   }) : super(collection: '/events');
 
   EventModel copyWith({
+    String? userRef,
     String? id,
     String? name,
     DateTime? created,
@@ -45,6 +48,7 @@ class EventModel extends BaseModel {
     List<FriendModel>? friends,
   }) {
     return EventModel(
+      userRef: userRef ?? this.userRef,
       id: id ?? this.id,
       name: name ?? this.name,
       created: created ?? this.created,
@@ -58,6 +62,7 @@ class EventModel extends BaseModel {
   @override
   Map<String, dynamic> toMap() {
     return {
+      'userRef': userRef,
       'name': name,
       'created': FieldValue.serverTimestamp(),
       'value': calcValue,
@@ -69,6 +74,7 @@ class EventModel extends BaseModel {
 
   factory EventModel.fromMap(Map<String, dynamic> map) {
     return EventModel(
+      userRef: map['userRef'],
       id: map['id'],
       name: map['name'],
       created: (map['created'] as Timestamp).toDate(),

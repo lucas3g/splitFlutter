@@ -37,12 +37,12 @@ class _PersonTileWidgetState extends State<PersonTileWidget> {
     controller = CheckRoundedController(
         repository: FirebaseRepository(), event: widget.event);
     if (widget.friend.isPaid) {
-      controller.status = (CheckRoundedStatus.success);
+      controller.status = CheckRoundedStatus.success;
     }
     autorun((_) {
       if (controller.status == CheckRoundedStatus.success ||
           controller.status == CheckRoundedStatus.empty)
-        widget.onChanged(widget.event);
+        widget.onChanged(controller.event);
     });
     super.initState();
   }
@@ -104,8 +104,6 @@ class _PersonTileWidgetState extends State<PersonTileWidget> {
                       ? -widget.event.valueSplit
                       : widget.event.valueSplit);
               controller.event.copyWith(paid: newPaid);
-
-              setState(() {});
             },
             activeColor: controller.status == CheckRoundedStatus.success
                 ? Color(0xFF40B28C)

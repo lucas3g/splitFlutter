@@ -98,11 +98,15 @@ mixin _$CreateSplitController on _CreateSplitControllerBase, Store {
 
   @override
   void onChanged(
-      {String? name, List<ItemModel>? items, List<FriendModel>? friends}) {
+      {String? userRef,
+      String? name,
+      List<ItemModel>? items,
+      List<FriendModel>? friends}) {
     final _$actionInfo = _$_CreateSplitControllerBaseActionController
         .startAction(name: '_CreateSplitControllerBase.onChanged');
     try {
-      return super.onChanged(name: name, items: items, friends: friends);
+      return super.onChanged(
+          userRef: userRef, name: name, items: items, friends: friends);
     } finally {
       _$_CreateSplitControllerBaseActionController.endAction(_$actionInfo);
     }

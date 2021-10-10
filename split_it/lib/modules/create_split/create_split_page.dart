@@ -10,6 +10,7 @@ import 'package:split_it/modules/create_split/steps/one/step_one_page.dart';
 import 'package:split_it/modules/create_split/steps/three/step_three_page.dart';
 import 'package:split_it/modules/create_split/steps/two/step_two_page.dart';
 import 'package:split_it/modules/create_split_success/create_spli_success_page.dart';
+
 import 'package:split_it/shared/repositories/firebase_repository.dart';
 import 'package:split_it/theme/app_theme.dart';
 
@@ -30,9 +31,7 @@ class _CreateSplitPageState extends State<CreateSplitPage> {
   @override
   void initState() {
     pages = [
-      StepOnePage(
-        controller: controller,
-      ),
+      StepOnePage(controller: controller),
       StepTwoPage(
         controller: controller,
       ),

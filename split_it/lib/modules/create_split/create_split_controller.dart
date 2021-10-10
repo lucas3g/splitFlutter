@@ -53,8 +53,12 @@ abstract class _CreateSplitControllerBase with Store {
 
   @action
   void onChanged(
-      {String? name, List<ItemModel>? items, List<FriendModel>? friends}) {
-    event = event.copyWith(name: name, items: items, friends: friends);
+      {String? userRef,
+      String? name,
+      List<ItemModel>? items,
+      List<FriendModel>? friends}) {
+    event = event.copyWith(
+        userRef: userRef, name: name, items: items, friends: friends);
   }
 
   @observable
